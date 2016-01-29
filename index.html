@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>VEGA NexT 셀프업그레이드</title>    
+        <link href="css/reset.css" rel="stylesheet" type="text/css" />   
+        <link href="css/common.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/ui.js" ></script> 
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
+        <link href="css/roboto.min.css" rel="stylesheet">
+        <link href="css/material.min.css" rel="stylesheet">
+        <link href="css/ripples.min.css" rel="stylesheet">
+                
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+        <script src="js/ripples.min.js"></script>
+        <script src="js/material.min.js"></script> 
+ 
+        <script type="text/javascript">
+        	var index = 1;
+        	var start_rady = 0;
+        	var confirm = 1;
+        	var backup = 1;
+        	
+        	window.onload = function (){
+	        	OnLoad();	
+        	}
+			
+        	function blink_msg(){
+        		//setInterval("blink_unit()", 500);
+        	}
+			
+			function confirm_view(){
+				//popBgLayer.run('alert_confirm');
+			}
+			
+        	
+        	function upgrade_cancel(){
+        	    Cancel();
+        	}
+        	
+        	function upgrade_cancel_ok(){
+        	    //document.getElementById("upgrade_progress").style.display = "none";
+        		document.getElementById("upgrade_start").style.display = "block";
+        		//document.getElementById("upgrade_progress").style.top= "-9999px";
+        		//document.getElementById("upgrade_progress").style.left= "-9999px";
+        	}
+        	
+        	function cancel_btn_hide(){
+        	    //<![CDATA[
+        		document.getElementById("btn_cancel").innerHTML = "";
+        		//]]>
+        	}
+        	
+        	function upgrade_close(){
+        	    window.open('', '_self', '');
+        	    window.close();
+        	}
+        	
+        	function close_btn_show(){
+        	    //<![CDATA[
+        		document.getElementById("btn_cancel").innerHTML = "<img src='images/btn/btn_close.png' alt='종료' class='pointer' onclick='upgrade_close();'/>";
+        		//]]>
+        	}  	
+        	
+        	function upgrade_start(){
+        		document.getElementById("upgrade_progress").style.display = "block";
+        		document.getElementById("upgrade_start").style.display = "none";
+        		document.getElementById("upgrade_progress").style.top = "0px";
+        		//document.getElementById("upgrade_progress").style.left = "0";
+        		Start();
+        	}
+        	
+        	function retry_btn_show(){
+        	    //<![CDATA[
+        		document.getElementById("btn_cancel").innerHTML = "<img src='images/btn/btn_retry.png' alt='재시도' class='pointer' onclick='upgrade_retry();'/>";
+        		//]]>
+        	}
+        	
+        	function upgrade_retry(){
+        	    Start();
+        	     //<![CDATA[
+        		document.getElementById("btn_cancel").innerHTML = "<img src='images/btn/btn_cancel.png' alt='취소' class='pointer' onclick='upgrade_cancel();'/>";
+        		//]]>
+        	}
+        	        	
+			function runEvent(){
+				var func = setInterval("eventFadeIn()", 30*1000);
+        		
+	        	$(".event_right").bind("mouseover", function(){
+	        		clearInterval(func);
+	        	});		
+	        	
+	        	$(".event_right").bind("mouseout", function(){
+	        		func = setInterval("eventFadeIn()", 30*1000);
+	        	});
+			}
+			
+        	function eventFadeIn(){
+        		//$("#event"+index).fadeOut();
+				document.getElementById("event"+index).style.display = "none";
+        		index++;
+        		if(index > 4) index = 1;
+        		$("#event"+index).fadeIn();
+				//document.getElementById("event"+index).style.display = "block";
+        	}
+        	
+        	function StartEnable(){
+        		//<![CDATA[
+				document.getElementById("event_driver").style.display = "none";
+				document.getElementById("event1").style.display = "block";
+				//document.getElementById("img_upgrade_title").innerHTML = "<img src='images/txt/txt_upgrade_guide_1.png' alt='휴대폰과 PC를 USB 케이블로 연결하였나요?'/>";
+				runEvent();
+        		document.getElementById("btn_start").innerHTML = "<img src='images/btn/btn_upgrade_start.png' alt='' onclick='upgrade_start();' class='pointer'/> ";
+        		//]]>
+        	}
+        	
+        	function usbInstallWait(){
+        		//<![CDATA[
+				document.getElementById("event1").style.display = "none";
+				document.getElementById("event_driver").style.display = "block";
+        		document.getElementById("btn_start").innerHTML = "<img src='images/btn/btn_usb.gif' alt='Usb Driver 설치중'/>";
+        		//document.getElementById("img_upgrade_title").innerHTML = "<img src='images/txt/txt_upgrade_guide_2.png' alt='휴대폰과 PC를 USB 케이블로 해제하였나요?'/>";
+				//]]>
+        	}
+        	
+        	function status_message(msg) {
+        	    document.getElementById("progress_title").innerHTML = "<div class="well"><b>"+msg+"</b></div>";
+        	}        	
+        	
+        	function keydown() {
+                if(event.keyCode ==116){
+                    event.keyCode= 38;
+                }
+                return false;
+            }
+            document.onkeydown=keydown;     	     	   	
+        </script> 
+        <script language="VBScript">
+            Sub OnLoad()
+                window.CuriDown1.OnLoad
+            End Sub
+            
+            Sub CuriDown1_OnLoadOK(nCode)
+	            If nCode = 2 Then
+		            StartEnable()
+		            ' blink_msg()
+	            ElseIf nCode = 1 Then
+		            alert("Internet Explorer의 버전이 6 이상만 지원합니다.\n\n업그레이드를 종료합니다.")
+		            close
+		        ElseIf nCode = 3 Then
+		            usbInstallWait()
+	            ElseIf nCode = 0 Then
+		            alert("Windows XP 이상만 지원합니다.\n\n업그레이드를 종료합니다.")
+		            close
+	            End If
+            End Sub
+            
+            Sub Start
+                window.CuriDown1.StartDown
+            End Sub
+            
+            Sub Cancel
+                window.CuriDown1.UpgradeCancel
+            End Sub
+
+            Sub CuriDown1_ErrorMessage(nErrCode, strMessage, strCaption)
+	            If nErrCode = 1 Then
+		            status_message(strMessage)
+		        ElseIf nErrCode = 2 Then
+		            upgrade_cancel_ok()
+		        ElseIf nErrCode = 3 Then
+		            cancel_btn_hide()
+		        ElseIf nErrCode = 4 Then
+		            close_btn_show()
+		        ElseIf nErrCode = 5 Then
+		            status_message(strMessage)
+		            retry_btn_show()
+	            Else
+		            alert (strMessage)
+	            End If	
+            End Sub
+ 
+        </script>        
+    </head>
+    <body oncontextmenu="return false" ondragstart="return false">
+    
+ 
+        <h1>SELF UPGRADE SERVICE</h1>
+    	<input type='hidden' id='progress_title_temp' value='&nbsp;'/>
+
+    <div class="main">
+        	<div class="main_title"><div class="jumbotron">
+    <h2>VEGA 셀프 업그레이드</h2>
+                </div></div></div>
+        <p align="right"><i>20150901 Released</i></p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="well">
+                    
+                    <!--START 버튼 시작-->
+        	<div id="upgrade_start">
+                <div class="well">
+                    스마트폰의 경우 SW 업그레이드 서비스 이용 시 보유한 데이터의 변경, 오류 또는 손실 등이 발생될 수 있으니 백업 후 이용 하시기 바랍니다.
+                </div>
+                <div class="upgrade_guide"><div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">주의사항</h3>
+    </div>
+    <div class="panel-body">
+        <li>배터리를 충분히 충전하신 후 진행해주세요.</li>
+        <li>진행 도중 절대 USB케이블을 분리하지 마세요.</li>
+    </div>
+</div></div>
+                <center>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">USB케이블과 휴대폰을 연결해주세요!</h3>
+                    </div>
+                    <div class="panel-body">
+                        연결 후 업그레이드 시작을 누르면 업그레이드가 시작됩니다.
+                    </div>
+                </div>
+                <div class="btn_start" id="btn_start"><img src="images/btn/btn_wait.gif"/></div>
+                    </center>
+            
+                
+            </div>
+            
+            
+        
+        	<!--//START 버튼 끝-->
+        	<!--프로그레스바 시작-->
+        	<div id="upgrade_progress">
+                <center>
+        		<div id="progress_title">
+                    <div class="well">업그레이드를 시작 합니다.</div>
+                </div>
+        		<div id="progress_status">
+        			<object id="CuriDown1" classid="CLSID:9D69C16B-5370-495E-B403-4C9C6A66591D" width="275" height="71" codebase="SkyUpdate.Cab#version=1,1,2,48" viewastext>
+						<param name="IsProgVisible" value="1"/>
+						<param name="IsStatusVisible" value="0"/>
+					</object>
+				</div>
+        		<div class="btn_cancel" id="btn_cancel"><img src="images/btn/btn_cancel.png" alt="취소" class="pointer" onclick="upgrade_cancel();"/></div>
+                    </center>
+        	</div>
+        	<!--//프로그레스바 끝-->
+                    
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="well">
+                    <ul class="breadcrumb">
+                    <li>공지사항</li>
+                    </ul>
+                    <center>
+                    <script type="text/javascript" src="http://tab2.clickmon.co.kr/pop/wp_ad_250_js.php?PopAd=CM_M_1003067%7C%5E%7CCM_A_1017489%7C%5E%7CAdver_M_1003115" ></script>
+                    </center>
+                    <table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>날짜</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="info">
+            <td>2</td>
+            <td>셀프업그레이드 수정버전 테스트 중</td>
+            <td>2015.09.01</td>
+        </tr>
+        <tr class="active">
+            <td>1</td>
+            <td>테스트</td>
+            <td>2015.09.01</td>
+        </tr>
+    </tbody>
+</table>
+                    <center>
+                    <ul class="pagination">
+    <li class="disabled"><a href="javascript:void(0)">«</a></li>
+    <li class="active"><a>1</a></li>
+    <li class="disabled"><a>»</a></li>
+</ul>
+                        </center>
+                    <p align="center">Re-Develoed by <image src="images/logo.png" width="25%"></image></p>
+                </div>
+            </div>
+        </div>
+        
+        <center>
+        <iframe width="728" height="90" allowtransparency="true" src="http://tab2.clickmon.co.kr/pop/wp_ad_728.php?PopAd=CM_M_1003067%7C%5E%7CCM_A_1017489%7C%5E%7CAdver_M_1003115" frameborder="0" scrolling='no'></iframe>
+        </center>
+        
+        <blockquote class="pull-right">
+    <p>한 발 더 나아간다, 고로 존재한다</p>
+    <small><cite title="Source Title">VEGA</cite>를 응원합니다</small>
+</blockquote>
+        	
+        
+        
+        <script>
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+        </script>
+</body>
+</html>

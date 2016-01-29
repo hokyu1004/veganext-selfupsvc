@@ -1,0 +1,27 @@
+body {font-size:72%; line-height:1.2;}
+h1 {font-size:0; height:1px; line-height:0; position:absolute; width:1px; overflow:hidden;}
+.main {position:relative; left:0;}
+
+
+.main_title {position:relative; top:18px;}
+#upgrade_start {position:relative; top:0px; display:block;}
+#upgrade_start .upgrade_title {padding:0 42px 22px 14px;}
+#upgrade_start .btn_start {height:39px; top:25px; bottom:25px;}
+#upgrade_start .upgrade_guide {padding:0px 0px 0px 0px;}
+#upgrade_start ul {padding:0 33px;}
+#upgrade_start ul li {display:inline; padding:0 3px;}
+#upgrade_progress {position:relative; top:-9999px; left:0px; display:block;}
+#upgrade_progress #progress_title {position:relative; padding:2px 8px 0 15px; color:#595959;}
+/*#upgrade_progress #progress_status {background:url(../images/bg/bg_progress_box.png) no-repeat 0 0; width:275px; height:71px; margin-left:13px;}*/
+#upgrade_progress #progress_status {position:relative; width:275px; height:71px; margin-left:13px;}
+#upgrade_progress .btn_cancel {position:relative; padding:6px 12px 0 237px;}
+
+.pointer {cursor:pointer;}
+
+.alert{display:none; width:315px; height:315px; background:url(../images/bg/alert_bg.gif) no-repeat 0 0}/*alert 레이어 팝업*/
+.alert .tit{height:40px; padding:13px 0 0 16px; color:#7f8ba0; font-weight:bold}
+.alert .cont{height:68px; margin:0 30px;}
+.alert .cont1{height:118px; margin:0 30px;}
+.alert .btn{text-align:center;}
+
+#event1 {display:block;}
